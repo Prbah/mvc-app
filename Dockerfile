@@ -4,13 +4,13 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["MyMvcApp/MyMvcApp.csproj", "./"]
-RUN dotnet restore "MyMvcApp.csproj"
+COPY ["mvc-app/mvc-app.csproj", "./"]
+RUN dotnet restore "mvc-app.csproj"
 COPY MyMvcApp/. .
-RUN dotnet publish "MyMvcApp.csproj" -c Release -o /app/publish
+RUN dotnet publish "mvc-app.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=build /app/publish .
-ENTRYPOINT ["dotnet", "MyMvcApp.dll"]
+ENTRYPOINT ["dotnet", "mvc-app.dll"]
 
